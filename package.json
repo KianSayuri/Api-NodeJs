@@ -1,0 +1,30 @@
+{
+  "name": "api-nodejs",
+  "version": "1.0.0",
+  "description": "Aula sobre API Node",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KianSayuri/Api-NodeJs.git"
+  },
+  "keywords": ["API", "NodeJS", "MySQL"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KianSayuri/Api-NodeJs/issues"
+  },
+  "homepage": "https://github.com/KianSayuri/Api-NodeJs#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
+    "mysql2": "^3.9.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
