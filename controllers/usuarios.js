@@ -2,6 +2,7 @@ const { json } = require('express');
 const db = require('../database/connection');
 
 module.exports = {
+
     async listarUsuarios(request, response) {
         try {
             return response.status(200).json({
@@ -21,5 +22,59 @@ module.exports = {
                 dados: null
             });
         }
-    }
+    },
+    
+    async cadastrarUsuarios(request, response) {
+        try {
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: 'Cadastrar de usuários.',
+                dados: null
+            });
+        }
+
+        catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: `Erro na requisão. \n ${error}`,
+                dados: null
+            });
+        }
+    },
+
+    async editarUsuarios(request, response) {
+        try {
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: 'Editar usuários.',
+                dados: null
+            });
+        }
+
+        catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: `Erro na requisão. \n ${error}`,
+                dados: null
+            });
+        }
+    },
+
+    async apagarUsuarios(request, response) {
+        try {
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: 'Apagar usuários.',
+                dados: null
+            });
+        }
+
+        catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: `Erro na requisão. \n ${error}`,
+                dados: null
+            });
+        }
+    },
 }
