@@ -1,80 +1,78 @@
-const { json } = require('express');
-const db = require('../database/connection');
+const { json } = require('express'); 
+const db = require('../database/connection'); 
 
 module.exports = {
-
     async listarUsuarios(request, response) {
         try {
-            return response.status(200).json({
-                //objeto é o parametro com chaves/cod
-                //json ele espera um objeto, objeto é oq tem chave/atributo e valor
-                //200 é um padrao da internet para definir se haverá sucesso ou não, msm coisa com 500
-                sucesso: true,
-                mensagem: 'Lista de usuários.',
-                dados: null
-            });
-        }
+            // throw new Error('Eu causei o erro!');
+            // instruções SQL
+            const sql = `SELECT 
+                usu_id, usu_nome, usu_email, usu_dt_nasc, usu_senha, 
+                usu_tipo, usu_ativo = 1 AS usu_ativo 
+                FROM usuarios;`; 
+            // executa instruções SQL e armazena o resultado na variável usuários
+            const usuarios = await db.query(sql); 
+            const nItens = usuarios[0].length;
 
-        catch (error) {
+            return response.status(200).json({
+                sucesso: true, 
+                mensagem: 'Lista de usuários.', 
+                dados: usuarios[0], 
+                nItens                 
+            });
+        } catch (error) {
+            // console.log(error);
             return response.status(500).json({
-                sucesso: false,
-                mensagem: `Erro na requisão. \n ${error}`,
-                dados: null
+                sucesso: false, 
+                mensagem: 'Erro na requisição.', 
+                dados: error.message
             });
         }
     },
-    
     async cadastrarUsuarios(request, response) {
         try {
             return response.status(200).json({
-                sucesso: true,
-                mensagem: 'Cadastrar de usuários.',
+                sucesso: true, 
+                mensagem: 'Cadastro de usuários.', 
                 dados: null
             });
-        }
-
-        catch (error) {
+        } catch (error) {
             return response.status(500).json({
-                sucesso: false,
-                mensagem: `Erro na requisão. \n ${error}`,
+                sucesso: false, 
+                mensagem: `Erro na requisição. -${error}`, 
                 dados: null
             });
         }
-    },
-
+    }, 
     async editarUsuarios(request, response) {
         try {
             return response.status(200).json({
-                sucesso: true,
-                mensagem: 'Editar usuários.',
+                sucesso: true, 
+                mensagem: 'Editar usuários.', 
                 dados: null
             });
-        }
-
-        catch (error) {
+        } catch (error) {
             return response.status(500).json({
-                sucesso: false,
-                mensagem: `Erro na requisão. \n ${error}`,
+                sucesso: false, 
+                mensagem: `Erro na requisição. -${error}`, 
                 dados: null
             });
         }
-    },
-
+    }, 
     async apagarUsuarios(request, response) {
         try {
             return response.status(200).json({
-                sucesso: true,
-                mensagem: 'Apagar usuários.',
+                sucesso: true, 
+                mensagem: 'Apagar usuários.', 
                 dados: null
             });
-        }
-
-        catch (error) {
+        } catch (error) {
             return response.status(500).json({
-                sucesso: false,
-                mensagem: `Erro na requisão. \n ${error}`,
+                sucesso: false, 
+                mensagem: `Erro na requisição. -${error}`, 
                 dados: null
             });
         }
-    },
+    }, 
 }
+
