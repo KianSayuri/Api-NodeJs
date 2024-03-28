@@ -31,31 +31,58 @@ module.exports = {
     },
     async cadastrarUsuarios(request, response) {
         try {
+            // parâmetros recebidos no corpo da requisição
+            const { usu_nome, usu_email, usu_dt_nasc, usu_senha, usu_tipo, usu_ativo } = request.body;
+            // instrução SQL
+            const sql = `INSERT INTO usuarios 
+                (usu_nome, usu_email, usu_dt_nasc, usu_senha, usu_tipo, usu_ativo) 
+                VALUES (?, ?, ?, ?, ?, ?)`;
+            // definição dos dados a serem inseridos em um array
+            const values = [usu_nome, usu_email, usu_dt_nasc, usu_senha, usu_tipo, usu_ativo];  
+            // execução da instrução sql passando os parâmetros
+            const execSql = await db.query(sql, values); 
+            // identificação do ID do registro inserido
+            const usu_id = execSql[0].insertId;           
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Cadastro de usuários.', 
-                dados: null
+                mensagem: 'Cadastro de usuário efetuado com sucesso.', 
+                dados: usu_id, 
             });
         } catch (error) {
             return response.status(500).json({
                 sucesso: false, 
-                mensagem: `Erro na requisição. -${error}`, 
-                dados: null
+                mensagem: 'Erro na requisição.', 
+                dados: error.message
             });
         }
-    }, 
+    },
     async editarUsuarios(request, response) {
         try {
+            // parâmetros recebidos pelo corpo da requisição
+            const { usu_nome, usu_email, usu_dt_nasc, usu_senha, usu_tipo, usu_ativo } = request.body;
+            // parâmetro recebido pela URL via params ex: /usuario/1
+            const { usu_id } = request.params; 
+            // instruções SQL
+            const sql = `UPDATE usuarios SET usu_nome = ?, usu_email = ?, 
+                usu_dt_nasc = ?, usu_senha = ?, usu_tipo = ?, 
+                usu_ativo = ? WHERE usu_id = ?;`; 
+            // preparo do array com dados que serão atualizados
+            const values = [usu_nome, usu_email, usu_dt_nasc, usu_senha, usu_tipo, usu_ativo, usu_id]; 
+            // execução e obtenção de confirmação da atualização realizada
+            const atualizaDados = await db.query(sql, values); 
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Editar usuários.', 
-                dados: null
+                mensagem: `Usuário ${usu_id} atualizado com sucesso!`, 
+                dados: atualizaDados[0].affectedRows 
+                // mensSql: atualizaDados
             });
         } catch (error) {
             return response.status(500).json({
                 sucesso: false, 
-                mensagem: `Erro na requisição. -${error}`, 
-                dados: null
+                mensagem: 'Erro na requisição.', 
+                dados: error.message
             });
         }
     }, 
