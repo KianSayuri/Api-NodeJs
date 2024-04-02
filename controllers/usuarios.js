@@ -88,16 +88,25 @@ module.exports = {
     }, 
     async apagarUsuarios(request, response) {
         try {
+            // parâmetro passado via url na chamada da api pelo front-end
+            const { usu_id } = request.params; 
+            // comando de exclusão
+            const sql = `DELETE FROM usuarios WHERE usu_id = ?`;
+            // array com parâmetros da exclusão
+            const values = [usu_id]; 
+            // executa instrução no banco de dados
+            const excluir = await db.query(sql, values); 
+
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Apagar usuários.', 
-                dados: null
+                mensagem: `Usuário ${usu_id} excluído com sucesso`, 
+                dados: excluir[0].affectedRows
             });
         } catch (error) {
             return response.status(500).json({
                 sucesso: false, 
-                mensagem: `Erro na requisição. -${error}`, 
-                dados: null
+                mensagem: 'Erro na requisição.', 
+                dados: error.message
             });
         }
     }, 
