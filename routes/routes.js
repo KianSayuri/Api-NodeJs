@@ -4,7 +4,7 @@ const router = express.Router();
 // referência a controllers que serão utilizados nas rotas
 const UsuariosController = require('../controllers/usuarios'); 
 const ProdutosController = require('../controllers/produtos');
-const IngredientesController = require('../controllers/ingredientes');
+const IngredientesController = require('../controllers/Ingredientes');
 const ClientesController = require('../controllers/clientes');
 const CidadesController = require('../controllers/cidades'); 
 const EnderecoClientesController = require('../controllers/enderecoClientes');

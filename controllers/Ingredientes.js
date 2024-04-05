@@ -57,7 +57,7 @@ module.exports = {
             });
         }
     },
-    async editarIngrediente(request, response) {
+    async editarIngredientes(request, response) {
         try {
             // parâmetros recebidos pelo corpo da requisição
             const { ing_nome, ing_img, ing_custo_adicional } = request.body;
