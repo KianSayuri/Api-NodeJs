@@ -27,8 +27,8 @@ router.delete('/produtos', ProdutosController.apagarProdutos);
 
 router.get('/ingredientes', IngredientesController.listarIngredientes); 
 router.post('/ingredientes', IngredientesController.cadastrarIngredientes); 
-router.patch('/ingredientes', IngredientesController.editarIngredientes); 
-router.delete('/ingredientes', IngredientesController.apagarIngredientes); 
+router.patch('/ingredientes/:ing_id', IngredientesController.editarIngredientes); 
+router.delete('/ingredientes/:ing_id', IngredientesController.apagarIngredientes); 
 
 router.get('/clientes', ClientesController.listarClientes); 
 router.post('/clientes', ClientesController.cadastrarClientes); 

@@ -4,20 +4,24 @@ const db = require('../database/connection');
 module.exports = {
     async listarIngredientes(request, response) {
         try {
+            const {ing_nome} = request.body;
+            const ingPesq = `%${ing_nome}%`;
+            const values = [ingPesq];
             // instruções SQL
             const sql = `SELECT 
                 ing_id, ing_nome, ing_img, ing_custo_adicional 
                 FROM Ingredientes 
-                WHERE ing_nome like '%${ing_nome}%;'`;
+                WHERE ing_nome like ?;`;
             // executa instruções SQL e armazena o resultado na variável usuários
-            const ingredientes = await db.query(sql);
+            
+            const ingredientes = await db.query(sql, values);
             // armazena em uma variável o número de registros retornados
             const nItens = ingredientes[0].length;
 
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Lista de ingredientes.',
-                dados: null,
+                dados: ingredientes[0],
                 nItens
             });
         } catch (error) {
@@ -34,8 +38,8 @@ module.exports = {
             const { ing_nome, ing_img, ing_custo_adicional } = request.body;
             // instrução SQL
             const sql = `INSERT INTO ingredientes
-                (ing_id, ing_nome, ing_img, ing_custo_adicional) 
-                VALUES (?, ?, ?, ?)`;
+                (ing_nome, ing_img, ing_custo_adicional) 
+                VALUES (?, ?, ?)`;
             // definição dos dados a serem inseridos em um array
             const values = [ing_nome, ing_img, ing_custo_adicional];
             // execução da instrução sql passando os parâmetros
@@ -46,7 +50,7 @@ module.exports = {
             return response.status(200).json({
                 sucesso: true,
                 mensagem: 'Cadastro de ingrediente efetuado com sucesso.',
-                dados: null
+                dados: null,
                 //mensSql: execSql
             });
         } catch (error) {
@@ -64,10 +68,10 @@ module.exports = {
             // parâmetro recebido pela URL via params ex: /usuario/1
             const { ing_id } = request.params;
             // instruções SQL
-            const sql = `UPDATE ingredientes SET ing_nome = ?,ing_id = ?, ing_nome = ?, 
-            ing_img = ?, ing_custo_adicional = ? WHERE ing_id = ?;`;
+            const sql = `UPDATE ingredientes SET ing_nome = ?,ing_img = ?, 
+            ing_custo_adicional = ? WHERE ing_id = ?;`;
             // preparo do array com dados que serão atualizados
-            const values = [ing_id, ing_nome, ing_img, ing_custo_adicional];
+            const values = [ing_nome, ing_img, ing_custo_adicional, ing_id];
             // execução e obtenção de confirmação da atualização realizada
             const atualizaDados = await db.query(sql, values);
 
